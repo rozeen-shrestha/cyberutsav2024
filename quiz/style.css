@@ -23,6 +23,15 @@ html, body {
   font-size: 18px;
 }
 
+#mcq-container, #report-container {
+  max-height: 80vh;
+  overflow-y: auto;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
 /* Question Box */
 .question-box {
   position: relative;
@@ -98,73 +107,68 @@ html, body {
 
 /* option Box */
 .option-box {
-    position: relative;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100%;
-    max-width: 600px;
-    padding: 5px;
-    border: 2px solid var(--color-option);
-    margin-bottom: 20px;
-  }
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  .option-box::before, .option-box::after {
-    content: "•";
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    font-size: 14px;
-    color: var(--color-option);
-    border: 2px solid var(--color-option);
-    line-height: 12px;
-    top: 5px;
-    text-align: center;
-  }
+.option-box::before, .option-box::after {
+  content: "•";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  color: var(--color-option);
+  border: 2px solid var(--color-option);
+  line-height: 12px;
+  top: 5px;
+  text-align: center;
+}
 
-  .option-box::before {
-    left: 5px;
-  }
+.option-box::before {
+  left: 5px;
+}
 
-  .option-box::after {
-    right: 5px;
-  }
+.option-box::after {
+  right: 5px;
+}
 
-  .option-box-inner {
-    position: relative;
-    border: 2px solid var(--color-option);
-    padding: 40px;
-  }
+.option-box-inner {
+  padding: 10px;
+  position: relative;
+  border: 2px solid var(--color-option);
+}
 
-  .option-box-inner::before, .option-box-inner::after {
-    content: "•";
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    font-size: 14px;
-    color: var(--color-option);
-    border: 2px solid var(--color-option);
-    line-height: 12px;
-    bottom: -2px;
-    text-align: center;
-  }
+.option-box-inner::before, .option-box-inner::after {
+  content: "•";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  color: var(--color-option);
+  border: 2px solid var(--color-option);
+  line-height: 12px;
+  bottom: -2px;
+  text-align: center;
+}
 
-  .option-box-inner::before {
-    left: -2px;
-  }
+.option-box-inner::before {
+  left: -2px;
+}
 
-  .option-box-inner::after {
-    right: -2px;
-  }
+.option-box-inner::after {
+  right: -2px;
+}
 
-  .option-box:hover {
-    background-color: #305cde;
-    cursor: pointer;
-  }
+.option-box:hover {
+  background-color: #305cde;
+  cursor: pointer;
+}
 
-.mcq-container {
-    position: absolute;
+#mcq-container {
+  position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);

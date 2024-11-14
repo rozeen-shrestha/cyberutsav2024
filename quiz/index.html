@@ -2,9 +2,114 @@
 <html>
 <head>
     <link rel="stylesheet" href="./style.css">
-    <script src="./script.js"></script>
 </head>
 <body>
-    <div class="changing"></div>
-    </body>
+    <button id="start-button" onclick="startQuiz()">Start</button>
+
+    <div id="mcq-container" style="display:none;">
+        <div>
+            <div class="question-box">
+                <div class="question-box-inner">
+                    <h1 id="question-text">
+                        <!-- Question will be dynamically inserted here -->
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="option-container" id="options-container">
+                <!-- Options will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="report-container" style="display:none; text-align:center;">
+        <h1>Report</h1>
+        <div id="report-content">
+            <!-- Report content will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let selectedAnswers = [];
+        let correctAnswers = [];
+
+        async function getQuestion() {
+            const url = "https://the-trivia-api.com/api/questions?limit=3&categories=science";
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                }
+
+                questions = await response.json();
+                displayQuestion();
+                console.log(questions)
+
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+        function startQuiz() {
+            document.getElementById("start-button").style.display = "none";
+            document.getElementById("report-container").style.display = "none";
+            getQuestion().then(() => {
+                document.getElementById("mcq-container").style.display = "block";
+            });
+        }
+
+        function displayQuestion() {
+            if (questions.length === 0) return;
+
+            const question = questions[currentQuestionIndex];
+            document.getElementById("question-text").innerText = question.question;
+
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            const allOptions = [question.correctAnswer, ...question.incorrectAnswers];
+            allOptions.forEach(option => {
+                const optionDiv = document.createElement("div");
+                optionDiv.className = "option-box";
+                optionDiv.innerHTML = `<div class="option-box-inner">${option}</div>`;
+                optionDiv.addEventListener("click", () => selectOption(option));
+                optionsContainer.appendChild(optionDiv);
+            });
+        }
+
+        function selectOption(option) {
+            selectedAnswers.push(option);
+            correctAnswers.push(questions[currentQuestionIndex].correctAnswer);
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            } else {
+                displayReport();
+                document.getElementById("mcq-container").style.display = "none";
+                document.getElementById("report-container").style.display = "block";
+            }
+        }
+
+        function displayReport() {
+            console.log(questions)
+            const reportContent = document.getElementById("report-content");
+            reportContent.innerHTML = "";
+
+            questions.forEach((question, index) => {
+                const answerDiv = document.createElement("div");
+                answerDiv.innerHTML = `
+                    <p><strong>Question:</strong> ${question.question}</p>
+                    <p><strong>Correct Answer:</strong> ${questions[index].correctAnswer}</p>
+                    <p><strong>Selected Answer:</strong> ${selectedAnswers[index]}</p>
+                    <br>
+                `;
+                reportContent.appendChild(answerDiv);
+            });
+        }
+    </script>
+</body>
 </html>
