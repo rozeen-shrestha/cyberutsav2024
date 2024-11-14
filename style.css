@@ -1,5 +1,5 @@
 body {
-    background: radial-gradient(#003, #000);
+    background: radial-gradient(#1488CC, #2B32B2);
     padding:0;
     margin:0;
     font-family: "Roboto Condensed", serif;
@@ -11,15 +11,16 @@ body {
     width:100%;
 }
 
-#navbar{
-    position:sticky;
-    top:0;
-    background-color:#333;
-    color:white;
-    text-align:center;
-    padding:10px;
-    font-size:20px;
-    font-family:'Roboto',sans-serif;
+#navbar {
+    position: sticky;
+    top: 0;
+    background-color: #131414;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    z-index: 1;
 }
 
 #navbar-ul{margin:0;
@@ -53,7 +54,7 @@ body {
     text-align: center;
     padding: 50px 20px;
     position: relative;
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -73,6 +74,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+
     margin-right: 20px;
 }
 

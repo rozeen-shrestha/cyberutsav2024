@@ -4,10 +4,19 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <div id="navbar">
+        <ul id="navbar-ul">
+            <li id="navbar-li"><a class="active" href="/">Home</a></li>
+            <li id="navbar-li"><a href="/quiz">Basic</a></li>
+            <li id="navbar-li"><a href="/rapid">Rapid</a></li>
+            <li id="navbar-li"><a href="/practice">Practice</a></li>
+          </ul>
+    </div>
+
     <div id="start-container">
         <h1>Welcome to the Quiz</h1>
         <br>
-        <img src="path/to/your/image.jpg" alt="Quiz Image" id="start-image">
+        <img src="https://www.euroschoolindia.com/wp-content/uploads/2023/10/advantages-of-taking-science-jpg.webp" alt="Quiz Image" id="start-image" style="border-radius: 20px;">
         <button id="start-button" onclick="startQuiz()">Start Quiz</button>
     </div>
 
@@ -20,6 +29,9 @@
                     </h1>
                 </div>
             </div>
+        </div>
+        <div id="question-number-container" style="display:none;">
+            <h2 id="question-number-text"></h2>
         </div>
         <div>
             <div class="option-container" id="options-container">
@@ -75,6 +87,10 @@
 
             const question = questions[currentQuestionIndex];
             document.getElementById("question-text").innerText = question.question;
+
+            const questionNumberText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            document.getElementById("question-number-text").innerText = questionNumberText;
+            document.getElementById("question-number-container").style.display = "block";
 
             const optionsContainer = document.getElementById("options-container");
             optionsContainer.innerHTML = "";

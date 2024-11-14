@@ -176,7 +176,7 @@ html, body {
 
 #start-container {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -221,4 +221,40 @@ html, body {
 #start-button:hover span {
     transform: scale(.9);
     opacity: .75;
+}
+
+
+#navbar {
+    position: sticky;
+    top: 0;
+    background-color: #131414;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    z-index: 1;
+}
+
+#navbar-ul{margin:0;
+    padding:0;
+    overflow:hidden;
+}
+
+#navbar-li{
+    display:inline-block;
+    color:white;
+    margin-right:10px;
+}
+
+#navbar-li a{
+    display:block;
+    color:white;
+    text-align:center;
+    padding:14px 16px;
+    text-decoration:none;
+}
+
+#navbar-li a:hover{
+    background-color:#111;
 }
