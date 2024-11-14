@@ -1,159 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trivia Game</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    <form id="triviaForm">
-        <label for="category">Category:</label>
-        <select id="category" name="category">
-            <option value="arts_and_literature">Arts And Literature</option>
-            <option value="flim_and_tc">Flim and TV</option>
-            <option value="food_and_drink">Food and Drink</option>
-            <option value="general_knowledge">General Knowlege</option>
-            <option value="geogrohy">Geography</option>
-            <option value="history">History</option>
-            <option value="music">Music</option>
-            <option value="science">Science</option>
-            <option value="society_and_culture">Society and Culture</option>
-            <option value="sports_and_leisure">Sports and Leisure</option>
-        </select>
-        <label for="limit">Number of Questions:</label>
-        <input type="number" id="limit" name="limit" value="3">
-        <label for="difficulty">Difficulty:</label>
-        <select id="difficulty" name="difficulty">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
-        <button type="button" id="startButton">Start</button>
-    </form>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Trivia Game</title>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <div id="navbar">
+            <ul id="navbar-ul">
+                <li id="navbar-li"><a class="active" href="/">Home</a></li>
+                <li id="navbar-li"><a href="/quiz">Basic</a></li>
+                <li id="navbar-li"><a href="/rapid">Rapid</a></li>
+                <li id="navbar-li"><a href="/practice">Practice</a></li>
+              </ul>
+        </div>
+        <form id="triviaForm">
+            <label for="category">Category:</label>
+            <select id="category" name="category">
+                <option value="arts_and_literature">Arts And Literature</option>
+                <option value="flim_and_tc">Flim and TV</option>
+                <option value="food_and_drink">Food and Drink</option>
+                <option value="general_knowledge">General Knowlege</option>
+                <option value="geogrohy">Geography</option>
+                <option value="history">History</option>
+                <option value="music">Music</option>
+                <option value="science">Science</option>
+                <option value="society_and_culture">Society and Culture</option>
+                <option value="sports_and_leisure">Sports and Leisure</option>
+            </select>
+            <label for="limit">Number of Questions:</label>
+            <input type="number" id="limit" name="limit" value="3">
+            <label for="difficulty">Difficulty:</label>
+            <select id="difficulty" name="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <button type="button" id="startButton">Start</button>
+        </form>
 
-    <div id="mcq-container" style="display:none;">
-        <div>
-            <div class="question-box">
-                <div class="question-box-inner">
-                    <h1 id="question-text">
-                        <!-- Question will be dynamically inserted here -->
-                    </h1>
+        <div id="mcq-container" style="display:none;">
+            <div>
+                <div class="question-box">
+                    <div class="question-box-inner">
+                        <h1 id="question-text">
+                            <!-- Question will be dynamically inserted here -->
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="option-container" id="options-container">
+                    <!-- Options will be dynamically inserted here -->
                 </div>
             </div>
         </div>
-        <div>
-            <div class="option-container" id="options-container">
-                <!-- Options will be dynamically inserted here -->
+
+        <div id="report-container" style="display:none; text-align:center;">
+            <h1>Report</h1>
+            <div id="score-container">
+                <!-- Score will be dynamically inserted here -->
+            </div>
+            <div id="report-content">
+                <!-- Report content will be dynamically inserted here -->
             </div>
         </div>
-    </div>
 
-    <div id="report-container" style="display:none; text-align:center;">
-        <h1>Report</h1>
-        <div id="score-container">
-            <!-- Score will be dynamically inserted here -->
-        </div>
-        <div id="report-content">
-            <!-- Report content will be dynamically inserted here -->
-        </div>
-    </div>
+        <script>
+            let questions = [];
+            let currentQuestionIndex = 0;
+            let selectedAnswers = [];
+            let correctAnswers = [];
 
-    <script>
-        let questions = [];
-        let currentQuestionIndex = 0;
-        let selectedAnswers = [];
-        let correctAnswers = [];
+            document.getElementById('startButton').addEventListener('click', function() {
+                const category = document.getElementById('category').value;
+                const limit = document.getElementById('limit').value;
+                const difficulty = document.getElementById('difficulty').value;
 
-        document.getElementById('startButton').addEventListener('click', function() {
-            const category = document.getElementById('category').value;
-            const limit = document.getElementById('limit').value;
-            const difficulty = document.getElementById('difficulty').value;
-
-            let apiUrl = `https://the-trivia-api.com/api/questions?limit=${limit}&categories=${category}`;
-            if (difficulty) {
-                apiUrl += `&difficulty=${difficulty}`;
-            }
-
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    questions = data;
-                    displayQuestion();
-                    document.getElementById("mcq-container").style.display = "block";
-                    document.getElementById("report-container").style.display = "none";
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-        });
-
-        function displayQuestion() {
-            if (questions.length === 0) return;
-
-            const question = questions[currentQuestionIndex];
-            document.getElementById("question-text").innerText = question.question;
-
-            const optionsContainer = document.getElementById("options-container");
-            optionsContainer.innerHTML = "";
-
-            const allOptions = [question.correctAnswer, ...question.incorrectAnswers];
-            shuffleArray(allOptions);
-            allOptions.forEach(option => {
-                const optionDiv = document.createElement("div");
-                optionDiv.className = "option-box";
-                optionDiv.innerHTML = `<div class="option-box-inner">${option}</div>`;
-                optionDiv.addEventListener("click", () => selectOption(option));
-                optionsContainer.appendChild(optionDiv);
-            });
-        }
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        function selectOption(option) {
-            selectedAnswers.push(option);
-            correctAnswers.push(questions[currentQuestionIndex].correctAnswer);
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                displayQuestion();
-            } else {
-                displayReport();
-                document.getElementById("mcq-container").style.display = "none";
-                document.getElementById("report-container").style.display = "block";
-            }
-        }
-
-        function displayReport() {
-            console.log(questions)
-            const reportContent = document.getElementById("report-content");
-            const scoreContainer = document.getElementById("score-container");
-            reportContent.innerHTML = "";
-            scoreContainer.innerHTML = "";
-
-            let correctCount = 0;
-            questions.forEach((question, index) => {
-                if (selectedAnswers[index] === question.correctAnswer) {
-                    correctCount++;
+                let apiUrl = `https://the-trivia-api.com/api/questions?limit=${limit}&categories=${category}`;
+                if (difficulty) {
+                    apiUrl += `&difficulty=${difficulty}`;
                 }
-                const answerDiv = document.createElement("div");
-                answerDiv.innerHTML = `
-                    <p><strong>Question:</strong> ${question.question}</p>
-                    <p><strong>Correct Answer:</strong> ${questions[index].correctAnswer}</p>
-                    <p><strong>Selected Answer:</strong> ${selectedAnswers[index]}</p>
-                    <br>
-                `;
-                reportContent.appendChild(answerDiv);
+
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        questions = data;
+                        displayQuestion();
+                        document.getElementById("mcq-container").style.display = "block";
+                        document.getElementById("report-container").style.display = "none";
+                        document.getElementById("triviaForm").style.display = "none"; // Hide the form
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
             });
 
-            const scoreDiv = document.createElement("div");
-            scoreDiv.innerHTML = `<h2>Score: ${correctCount} / ${questions.length}</h2>`;
-            scoreContainer.appendChild(scoreDiv);
-        }
-    </script>
-</body>
-</html>
+            function displayQuestion() {
+                if (questions.length === 0) return;
+
+                const question = questions[currentQuestionIndex];
+                document.getElementById("question-text").innerText = question.question;
+
+                const optionsContainer = document.getElementById("options-container");
+                optionsContainer.innerHTML = "";
+
+                const allOptions = [question.correctAnswer, ...question.incorrectAnswers];
+                shuffleArray(allOptions);
+                allOptions.forEach(option => {
+                    const optionDiv = document.createElement("div");
+                    optionDiv.className = "option-box";
+                    optionDiv.innerHTML = `<div class="option-box-inner">${option}</div>`;
+                    optionDiv.addEventListener("click", () => selectOption(option));
+                    optionsContainer.appendChild(optionDiv);
+                });
+            }
+
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            function selectOption(option) {
+                selectedAnswers.push(option);
+                correctAnswers.push(questions[currentQuestionIndex].correctAnswer);
+                if (currentQuestionIndex < questions.length - 1) {
+                    currentQuestionIndex++;
+                    displayQuestion();
+                } else {
+                    displayReport();
+                    document.getElementById("mcq-container").style.display = "none";
+                    document.getElementById("report-container").style.display = "block";
+                }
+            }
+
+            function displayReport() {
+                const reportContent = document.getElementById("report-content");
+                const scoreContainer = document.getElementById("score-container");
+                reportContent.innerHTML = "";
+                scoreContainer.innerHTML = "";
+
+                let correctCount = 0;
+                questions.forEach((question, index) => {
+                    if (selectedAnswers[index] === question.correctAnswer) {
+                        correctCount++;
+                    }
+                    const answerDiv = document.createElement("div");
+                    answerDiv.innerHTML = `
+                        <p><strong>Question:</strong> ${question.question}</p>
+                        <p><strong>Correct Answer:</strong> ${questions[index].correctAnswer}</p>
+                        <p><strong>Selected Answer:</strong> ${selectedAnswers[index]}</p>
+                        <br>
+                    `;
+                    reportContent.appendChild(answerDiv);
+                });
+
+                const scoreDiv = document.createElement("div");
+                scoreDiv.innerHTML = `<h2>Score: ${correctCount} / ${questions.length}</h2>`;
+                scoreContainer.appendChild(scoreDiv);
+            }
+        </script>
+    </body>
+    </html>

@@ -22,7 +22,7 @@
 
   html, body {
     height: 100%;
-    background: radial-gradient(#003, #000);
+    background: radial-gradient(#3A6D8C, #001F3F);
     overflow: hidden;
     color: #fff;
     font-family: 'Open Sans';
@@ -223,3 +223,84 @@
   #user-info button[type="submit"]:hover {
     background-color: #204a9e;
   }
+
+  /* Trivia Form Styling */
+#triviaForm {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#triviaForm label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #b78846;
+}
+
+#triviaForm select, #triviaForm input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    font-size: 16px;
+}
+
+#triviaForm button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #305cde;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#triviaForm button:hover {
+    background-color: #204a9e;
+}
+
+#navbar {
+    position: sticky;
+    top: 0;
+    background-color: #131414;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    z-index: 1;
+}
+
+#navbar-ul{margin:0;
+    padding:0;
+    overflow:hidden;
+}
+
+#navbar-li{
+    display:inline-block;
+    color:white;
+    margin-right:10px;
+}
+
+#navbar-li a{
+    display:block;
+    color:white;
+    text-align:center;
+    padding:14px 16px;
+    text-decoration:none;
+}
+
+#navbar-li a:hover{
+    background-color:#111;
+}

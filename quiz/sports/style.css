@@ -1,0 +1,260 @@
+:root {
+  --color-question: #b78846;
+  --color-option: #c4c4c4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+*::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  background: radial-gradient(#3A6D8C, #001F3F);
+  overflow: hidden;
+  color: #fff;
+  font-family: 'Open Sans';
+  font-size: 18px;
+}
+
+#mcq-container, #report-container {
+  max-height: 80vh;
+  overflow-y: auto;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+/* Question Box */
+.question-box {
+  position: relative;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 600px;
+  padding: 5px;
+  border: 2px solid var(--color-question);
+  margin-bottom: 20px;
+}
+
+.question-box::before, .question-box::after {
+  content: "•";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  color: var(--color-question);
+  border: 2px solid var(--color-question);
+  line-height: 12px;
+  top: 5px;
+  text-align: center;
+}
+
+.question-box::before {
+  left: 5px;
+}
+
+.question-box::after {
+  right: 5px;
+}
+
+.question-box-inner {
+  position: relative;
+  border: 2px solid var(--color-question);
+  padding: 40px;
+}
+
+.question-box-inner::before, .question-box-inner::after {
+  content: "•";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  color: var(--color-question);
+  border: 2px solid var(--color-question);
+  line-height: 12px;
+  bottom: -2px;
+  text-align: center;
+}
+
+.question-box-inner::before {
+  left: -2px;
+}
+
+.question-box-inner::after {
+  right: -2px;
+}
+
+/* Options Div */
+.option-container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+/* option Box */
+.option-box {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.option-box::before, .option-box::after {
+  content: "•";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  color: var(--color-option);
+  border: 2px solid var(--color-option);
+  line-height: 12px;
+  top: 5px;
+  text-align: center;
+}
+
+.option-box::before {
+  left: 5px;
+}
+
+.option-box::after {
+  right: 5px;
+}
+
+.option-box-inner {
+  padding: 10px;
+  position: relative;
+  border: 2px solid var(--color-option);
+}
+
+.option-box-inner::before, .option-box-inner::after {
+  content: "•";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  color: var(--color-option);
+  border: 2px solid var(--color-option);
+  line-height: 12px;
+  bottom: -2px;
+  text-align: center;
+}
+
+.option-box-inner::before {
+  left: -2px;
+}
+
+.option-box-inner::after {
+  right: -2px;
+}
+
+.option-box:hover {
+  background-color: #305cde;
+  cursor: pointer;
+}
+
+#mcq-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#start-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: radial-gradient(#3A6D8C, #001F3F);
+}
+
+#start-button {
+    background-image: linear-gradient(135deg, #f34079 40%, #fc894d);
+    border: 0;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    height: 54px;
+    padding: 0 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+    user-select: none;
+    margin-top: 20px;
+}
+
+#start-button:active {
+    outline: 0;
+}
+
+#start-button:hover {
+    outline: 0;
+}
+
+#start-button span {
+    transition: all 200ms;
+}
+
+#start-button:hover span {
+    transform: scale(.9);
+    opacity: .75;
+}
+
+
+#navbar {
+    position: sticky;
+    top: 0;
+    background-color: #131414;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    z-index: 1;
+}
+
+#navbar-ul{margin:0;
+    padding:0;
+    overflow:hidden;
+}
+
+#navbar-li{
+    display:inline-block;
+    color:white;
+    margin-right:10px;
+}
+
+#navbar-li a{
+    display:block;
+    color:white;
+    text-align:center;
+    padding:14px 16px;
+    text-decoration:none;
+}
+
+#navbar-li a:hover{
+    background-color:#111;
+}

@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
+    <title>Image Gallery</title>
 </head>
 <body>
     <div id="navbar">
@@ -10,148 +13,101 @@
             <li id="navbar-li"><a href="/quiz">Basic</a></li>
             <li id="navbar-li"><a href="/rapid">Rapid</a></li>
             <li id="navbar-li"><a href="/practice">Practice</a></li>
-          </ul>
+        </ul>
     </div>
+    <div class="container">
+        <h1 style="font-size: 50px; padding-bottom: 10px;">
+            Select Which Category You Want to Explore
+        </h1>
 
-    <div id="start-container">
-        <h1>Welcome to the Quiz</h1>
-        <br>
-        <img src="https://www.euroschoolindia.com/wp-content/uploads/2023/10/advantages-of-taking-science-jpg.webp" alt="Quiz Image" id="start-image" style="border-radius: 20px;">
-        <button id="start-button" onclick="startQuiz()">Start Quiz</button>
-    </div>
-
-    <div id="mcq-container" style="display:none;">
-        <div>
-            <div class="question-box">
-                <div class="question-box-inner">
-                    <h1 id="question-text">
-                        <!-- Question will be dynamically inserted here -->
-                    </h1>
+        <div class="gallery">
+            <!-- Row 1 -->
+            <a href="/quiz/art"  style="text-decoration:none">
+                <div class="gallery-card">
+                    <img src="../images/art.png" alt="Image 1">
+                    <div class="card-content">
+                        <h3>Art and Literature</h3>
+                        <p>Click to start quiz</p>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div id="question-number-container" style="display:none;">
-            <h2 id="question-number-text"></h2>
-        </div>
-        <div>
-            <div class="option-container" id="options-container">
-                <!-- Options will be dynamically inserted here -->
-            </div>
+            </a>
+            <a href="/quiz/food"  style="text-decoration:none">
+                <div class="gallery-card">
+                    <img src="../images/food.jpeg" alt="Image 2">
+                    <div class="card-content">
+                        <h3>Food and Drinks</h3>
+                        <p>Click to start quiz</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/quiz/geography/ "  style="text-decoration:none">
+                <div class="gallery-card">
+                    <img src="../images/geo.png" alt="Image 3">
+                    <div class="card-content">
+                        <h3>Geography</h3>
+                        <p>Click to start quiz</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Row 2 -->
+            <a href="/quiz/gk"  style="text-decoration:none">
+                <div class="gallery-card">
+                    <img src="../images/gk.png" alt="Image 4">
+                    <div class="card-content">
+                        <h3>General Knowledge</h3>
+                        <p>Click to start quiz</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/quiz/history/"  style="text-decoration:none">
+                <div class="gallery-card">
+                    <img src="../images/history.png" alt="Image 5">
+                    <div class="card-content">
+                        <h3>History</h3>
+                        <p>Click to start quiz</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/quiz/music/"  style="text-decoration:none">
+                <div class="gallery-card">
+                    <img src="../images/music.png" alt="Image 6">
+                    <div class="card-content">
+                        <h3>Music</h3>
+                        <p>Click to start quiz</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Row 3 -->
+            <a href="/quiz/science/"  style="text-decoration:none">
+                <div class="gallery-card">
+                    <img src="../images/science.png" alt="Image 7">
+                    <div class="card-content">
+                        <h3>Science</h3>
+                        <p>Click to start quiz</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/quiz/sports/"  style="text-decoration:none">
+                <div class="gallery-card">
+                    <img src="../images/sports.png" alt="Image 8">
+                    <div class="card-content">
+                        <h3>Sports</h3>
+                        <p>Click to start quiz</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/quiz/culture/ "  style="text-decoration:none">
+                <div class="gallery-card">
+                    <img src="../images/culture.png" alt="Image 9">
+                    <div class="card-content">
+                        <h3>Culture</h3>
+                        <p>Click to start quiz</p>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
-
-    <div id="report-container" style="display:none; text-align:center;">
-        <h1>Report</h1>
-        <div id="score-container">
-            <!-- Score will be dynamically inserted here -->
-        </div>
-        <div id="report-content">
-            <!-- Report content will be dynamically inserted here -->
-        </div>
-    </div>
-
-    <script>
-        let questions = [];
-        let currentQuestionIndex = 0;
-        let selectedAnswers = [];
-        let correctAnswers = [];
-
-        async function getQuestion() {
-            const url = "https://the-trivia-api.com/api/questions?categories=flim_tv&limit=20";
-            try {
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    throw new Error(`Response status: ${response.status}`);
-                }
-
-                questions = await response.json();
-                displayQuestion();
-                console.log(questions)
-
-            } catch (error) {
-                console.error(error.message);
-            }
-        }
-
-        function startQuiz() {
-            document.getElementById("start-container").style.display = "none";
-            document.getElementById("report-container").style.display = "none";
-            getQuestion().then(() => {
-                document.getElementById("mcq-container").style.display = "block";
-            });
-        }
-
-        function displayQuestion() {
-            if (questions.length === 0) return;
-
-            const question = questions[currentQuestionIndex];
-            document.getElementById("question-text").innerText = question.question;
-
-            const questionNumberText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
-            document.getElementById("question-number-text").innerText = questionNumberText;
-            document.getElementById("question-number-container").style.display = "block";
-
-            const optionsContainer = document.getElementById("options-container");
-            optionsContainer.innerHTML = "";
-
-            const allOptions = [question.correctAnswer, ...question.incorrectAnswers];
-            shuffleArray(allOptions);
-            allOptions.forEach(option => {
-                const optionDiv = document.createElement("div");
-                optionDiv.className = "option-box";
-                optionDiv.innerHTML = `<div class="option-box-inner">${option}</div>`;
-                optionDiv.addEventListener("click", () => selectOption(option));
-                optionsContainer.appendChild(optionDiv);
-            });
-        }
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        function selectOption(option) {
-            selectedAnswers.push(option);
-            correctAnswers.push(questions[currentQuestionIndex].correctAnswer);
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                displayQuestion();
-            } else {
-                displayReport();
-                document.getElementById("mcq-container").style.display = "none";
-                document.getElementById("report-container").style.display = "block";
-            }
-        }
-
-        function displayReport() {
-            console.log(questions)
-            const reportContent = document.getElementById("report-content");
-            const scoreContainer = document.getElementById("score-container");
-            reportContent.innerHTML = "";
-            scoreContainer.innerHTML = "";
-
-            let correctCount = 0;
-            questions.forEach((question, index) => {
-                if (selectedAnswers[index] === question.correctAnswer) {
-                    correctCount++;
-                }
-                const answerDiv = document.createElement("div");
-                answerDiv.innerHTML = `
-                    <p><strong>Question:</strong> ${question.question}</p>
-                    <p><strong>Correct Answer:</strong> ${questions[index].correctAnswer}</p>
-                    <p><strong>Selected Answer:</strong> ${selectedAnswers[index]}</p>
-                    <br>
-                `;
-                reportContent.appendChild(answerDiv);
-            });
-
-            const scoreDiv = document.createElement("div");
-            scoreDiv.innerHTML = `<h2>Score: ${correctCount} / ${questions.length}</h2>`;
-            scoreContainer.appendChild(scoreDiv);
-        }
-    </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="navbar">
@@ -12,36 +12,52 @@
             <li id="navbar-li"><a href="/practice">Practice</a></li>
           </ul>
     </div>
-    <div id="countdown" style="display:none;">30</div>
+
+    <div id="start-container">
+        <h1>Category: Music</h1>
+        <br>
+        <img src="../../images/music.png" alt="Quiz Image" id="start-image" style="border-radius: 20px; width: 300px; height: 200px; object-fit: cover; overflow: hidden;">
+        <button id="start-button" onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <div id="mcq-container" style="display:none;">
+        <div>
+            <div class="question-box">
+                <div class="question-box-inner">
+                    <h1 id="question-text">
+                        <!-- Question will be dynamically inserted here -->
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div id="question-number-container" style="display:none;">
+            <h2 id="question-number-text"></h2>
+        </div>
+        <div>
+            <div class="option-container" id="options-container">
+                <!-- Options will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="report-container" style="display:none; text-align:center;">
+        <h1>Report</h1>
+        <div id="score-container">
+            <!-- Score will be dynamically inserted here -->
+        </div>
+        <div id="report-content">
+            <!-- Report content will be dynamically inserted here -->
+        </div>
+    </div>
 
     <script>
-        let countdownElement = document.getElementById('countdown');
-        let countdownValue = 30;
-        let countdownInterval;
-
-        function startCountdown() {
-            countdownElement.style.display = "block";
-            countdownInterval = setInterval(() => {
-                countdownValue--;
-                countdownElement.textContent = countdownValue;
-
-                if (countdownValue <= 0) {
-                    clearInterval(countdownInterval);
-                    countdownElement.textContent = "Time's up!";
-                    displayReport();
-                    document.getElementById("mcq-container").style.display = "none";
-                    document.getElementById("report-container").style.display = "block";
-                }
-            }, 1000);
-        }
-
         let questions = [];
         let currentQuestionIndex = 0;
         let selectedAnswers = [];
         let correctAnswers = [];
 
         async function getQuestion() {
-            const url = "https://the-trivia-api.com/api/questions?limit=400";
+            const url = "https://the-trivia-api.com/api/questions?categories=music&limit=20";
             try {
                 const response = await fetch(url);
 
@@ -58,11 +74,10 @@
         }
 
         function startQuiz() {
-            document.getElementById("start-button").style.display = "none";
+            document.getElementById("start-container").style.display = "none";
             document.getElementById("report-container").style.display = "none";
             getQuestion().then(() => {
                 document.getElementById("mcq-container").style.display = "block";
-                startCountdown();
             });
         }
 
@@ -71,6 +86,10 @@
 
             const question = questions[currentQuestionIndex];
             document.getElementById("question-text").innerText = question.question;
+
+            const questionNumberText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            document.getElementById("question-number-text").innerText = questionNumberText;
+            document.getElementById("question-number-container").style.display = "block";
 
             const optionsContainer = document.getElementById("options-container");
             optionsContainer.innerHTML = "";
@@ -103,7 +122,6 @@
                 displayReport();
                 document.getElementById("mcq-container").style.display = "none";
                 document.getElementById("report-container").style.display = "block";
-                clearInterval(countdownInterval);
             }
         }
 
@@ -115,53 +133,23 @@
 
             let correctCount = 0;
             questions.forEach((question, index) => {
-                if (selectedAnswers[index] !== undefined) {
-                    if (selectedAnswers[index] === question.correctAnswer) {
-                        correctCount++;
-                    }
-                    const answerDiv = document.createElement("div");
-                    answerDiv.innerHTML = `
-                        <p><strong>Question:</strong> ${question.question}</p>
-                        <p><strong>Correct Answer:</strong> ${questions[index].correctAnswer}</p>
-                        <p><strong>Selected Answer:</strong> ${selectedAnswers[index]}</p>
-                        <br>
-                    `;
-                    reportContent.appendChild(answerDiv);
+                if (selectedAnswers[index] === question.correctAnswer) {
+                    correctCount++;
                 }
+                const answerDiv = document.createElement("div");
+                answerDiv.innerHTML = `
+                    <p><strong>Question:</strong> ${question.question}</p>
+                    <p><strong>Correct Answer:</strong> ${questions[index].correctAnswer}</p>
+                    <p><strong>Selected Answer:</strong> ${selectedAnswers[index]}</p>
+                    <br>
+                `;
+                reportContent.appendChild(answerDiv);
             });
 
             const scoreDiv = document.createElement("div");
-            scoreDiv.innerHTML = `<h2>Score: ${correctCount} / ${selectedAnswers.length}</h2>`;
+            scoreDiv.innerHTML = `<h2>Score: ${correctCount} / ${questions.length}</h2>`;
             scoreContainer.appendChild(scoreDiv);
         }
     </script>
-    <button id="start-button" onclick="startQuiz()">Start Rapid Quiz</button>
-
-    <div id="mcq-container" style="display:none;">
-        <div>
-            <div class="question-box">
-                <div class="question-box-inner">
-                    <h1 id="question-text">
-                        <!-- Question will be dynamically inserted here -->
-                    </h1>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="option-container" id="options-container">
-                <!-- Options will be dynamically inserted here -->
-            </div>
-        </div>
-    </div>
-
-    <div id="report-container" style="display:none; text-align:center;">
-        <h1>Report</h1>
-        <div id="score-container">
-            <!-- Score will be dynamically inserted here -->
-        </div>
-        <div id="report-content">
-            <!-- Report content will be dynamically inserted here -->
-        </div>
-    </div>
 </body>
 </html>
