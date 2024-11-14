@@ -3,12 +3,6 @@
   --color-option: #c4c4c4;
 }
 
-#countdown {
-    font-size: 2em;
-    text-align: center;
-    margin-top: 20px;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -22,7 +16,7 @@
 
 html, body {
   height: 100%;
-  background: radial-gradient(#3A6D8C, #001F3F);
+  background: radial-gradient(#003, #000);
   overflow: hidden;
   color: #fff;
   font-family: 'Open Sans';
@@ -178,48 +172,4 @@ html, body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-}
-
-/* User Info Form */
-#user-info {
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-#user-info h2 {
-  margin-bottom: 20px;
-}
-
-#user-info label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-#user-info input[type="text"],
-#user-info input[type="email"] {
-  width: 70%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-  color: #000;
-}
-
-#user-info button[type="submit"] {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #305cde;
-  color: #fff;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-#user-info button[type="submit"]:hover {
-  background-color: #204a9e;
 }

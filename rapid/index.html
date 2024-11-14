@@ -23,7 +23,6 @@
                     displayReport();
                     document.getElementById("mcq-container").style.display = "none";
                     document.getElementById("report-container").style.display = "block";
-                    document.getElementById("user-info").style.display = "block";
                 }
             }, 1000);
         }
@@ -157,17 +156,6 @@
         <div id="report-content">
             <!-- Report content will be dynamically inserted here -->
         </div>
-    </div>
-
-    <div id="user-info" style="display:none; text-align:center;">
-        <h2>Enter your details</h2>
-        <form>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name"><br><br>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email"><br><br>
-            <button type="submit">Submit</button>
-        </form>
     </div>
 </body>
 </html>
