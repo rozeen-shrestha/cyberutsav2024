@@ -4,43 +4,37 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <button id="start-button" onclick="startQuiz()">Start</button>
-
-    <div id="mcq-container" style="display:none;">
-        <div>
-            <div class="question-box">
-                <div class="question-box-inner">
-                    <h1 id="question-text">
-                        <!-- Question will be dynamically inserted here -->
-                    </h1>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="option-container" id="options-container">
-                <!-- Options will be dynamically inserted here -->
-            </div>
-        </div>
-    </div>
-
-    <div id="report-container" style="display:none; text-align:center;">
-        <h1>Report</h1>
-        <div id="score-container">
-            <!-- Score will be dynamically inserted here -->
-        </div>
-        <div id="report-content">
-            <!-- Report content will be dynamically inserted here -->
-        </div>
-    </div>
+    <div id="countdown" style="display:none;">5</div>
 
     <script>
+        let countdownElement = document.getElementById('countdown');
+        let countdownValue = 5;
+        let countdownInterval;
+
+        function startCountdown() {
+            countdownElement.style.display = "block";
+            countdownInterval = setInterval(() => {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+
+                if (countdownValue <= 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.textContent = "Time's up!";
+                    displayReport();
+                    document.getElementById("mcq-container").style.display = "none";
+                    document.getElementById("report-container").style.display = "block";
+                    document.getElementById("user-info").style.display = "block";
+                }
+            }, 1000);
+        }
+
         let questions = [];
         let currentQuestionIndex = 0;
         let selectedAnswers = [];
         let correctAnswers = [];
 
         async function getQuestion() {
-            const url = "https://the-trivia-api.com/api/questions?categories=science&limit=5&difficulty=hard";
+            const url = "https://the-trivia-api.com/api/questions?limit=200";
             try {
                 const response = await fetch(url);
 
@@ -62,6 +56,7 @@
             document.getElementById("report-container").style.display = "none";
             getQuestion().then(() => {
                 document.getElementById("mcq-container").style.display = "block";
+                startCountdown();
             });
         }
 
@@ -102,6 +97,7 @@
                 displayReport();
                 document.getElementById("mcq-container").style.display = "none";
                 document.getElementById("report-container").style.display = "block";
+                clearInterval(countdownInterval);
             }
         }
 
@@ -114,23 +110,64 @@
 
             let correctCount = 0;
             questions.forEach((question, index) => {
-                if (selectedAnswers[index] === question.correctAnswer) {
-                    correctCount++;
+                if (selectedAnswers[index] !== undefined) {
+                    if (selectedAnswers[index] === question.correctAnswer) {
+                        correctCount++;
+                    }
+                    const answerDiv = document.createElement("div");
+                    answerDiv.innerHTML = `
+                        <p><strong>Question:</strong> ${question.question}</p>
+                        <p><strong>Correct Answer:</strong> ${questions[index].correctAnswer}</p>
+                        <p><strong>Selected Answer:</strong> ${selectedAnswers[index]}</p>
+                        <br>
+                    `;
+                    reportContent.appendChild(answerDiv);
                 }
-                const answerDiv = document.createElement("div");
-                answerDiv.innerHTML = `
-                    <p><strong>Question:</strong> ${question.question}</p>
-                    <p><strong>Correct Answer:</strong> ${questions[index].correctAnswer}</p>
-                    <p><strong>Selected Answer:</strong> ${selectedAnswers[index]}</p>
-                    <br>
-                `;
-                reportContent.appendChild(answerDiv);
             });
 
             const scoreDiv = document.createElement("div");
-            scoreDiv.innerHTML = `<h2>Score: ${correctCount} / ${questions.length}</h2>`;
+            scoreDiv.innerHTML = `<h2>Score: ${correctCount} / ${selectedAnswers.length}</h2>`;
             scoreContainer.appendChild(scoreDiv);
         }
     </script>
+    <button id="start-button" onclick="startQuiz()">Start</button>
+
+    <div id="mcq-container" style="display:none;">
+        <div>
+            <div class="question-box">
+                <div class="question-box-inner">
+                    <h1 id="question-text">
+                        <!-- Question will be dynamically inserted here -->
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="option-container" id="options-container">
+                <!-- Options will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="report-container" style="display:none; text-align:center;">
+        <h1>Report</h1>
+        <div id="score-container">
+            <!-- Score will be dynamically inserted here -->
+        </div>
+        <div id="report-content">
+            <!-- Report content will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <div id="user-info" style="display:none; text-align:center;">
+        <h2>Enter your details</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>

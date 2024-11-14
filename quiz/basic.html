@@ -40,7 +40,7 @@
         let correctAnswers = [];
 
         async function getQuestion() {
-            const url = "https://the-trivia-api.com/api/questions?categories=science&limit=5&difficulty=hard";
+            const url = "https://the-trivia-api.com/api/questions?limit=3&categories=science";
             try {
                 const response = await fetch(url);
 
